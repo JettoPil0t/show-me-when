@@ -1,7 +1,8 @@
 # sched-prod incident board — plan
 
 The on-call board for sched-prod. One page, one list: tonight's incidents, newest first, so on-call sees
-what just broke and takes it.
+what just broke and takes it. The list holds still while it is on screen, so an Ack always lands on the
+row on-call aimed at.
 
 ## Flows
 
@@ -9,14 +10,17 @@ what just broke and takes it.
 |------|-----|--------------|
 | `open-board` | on-call | opens the board; sees tonight's incidents |
 | `ack-incident` | on-call | picks an incident on the board and acks it — "I've got this one" |
-| `watch-board` | on-call | keeps the board open; it stays current without a reload |
+| `watch-board` | on-call | keeps the board open; it stays current without a reload, and a "N new" bar says how many incidents wait |
 
 ## Requirements
 
-- **R1** New incidents appear live at the top of the list, newest first.
-- **R2** Each incident row has an **Ack** button. Ack sends the ack (`api.ack(id)`) and marks the row acked.
+- **R1** The list holds still while it is on screen: new incidents never move the rows. A "N new" bar, in
+  space kept for it above the list, counts the incidents that arrived; a click on it brings them in at the
+  top, newest first. When the list is empty, the first incidents come straight in. (Product decision after
+  step 1: the 00:29 recording showed an Ack landing on a row that slid in under the pointer.)
+- **R2** Each incident row has an **Ack** button. Ack sends the ack (`api.ack(id)`) and marks the row acked. Ack stays on the row: one click, no confirm.
 - **R3** Show a loader until incidents load.
-- **R4** The board refreshes itself every 2 seconds while open.
+- **R4** The board refreshes itself every 2 seconds while open: shown rows update in place, new ones wait behind the "N new" bar.
 - **R5** Times show in the viewer's local time; day before month for EU locales (dd/mm).
 - **R6** The page names its build: `<meta name="build" content="<git sha>">` in the head and the same sha in the footer.
 
@@ -27,6 +31,7 @@ what just broke and takes it.
 | `board` | the board's main area |
 | `loader` | the loader (gone once incidents load) |
 | `empty` | what shows when there are no incidents |
+| `new-bar` | the "N new" bar (hidden when nothing waits; click brings new incidents in) |
 | `incident-list` | the list |
 | `incident-row` | one incident row, with `data-id="<incident id>"` |
 | `ack` | the Ack button in a row |

@@ -16,8 +16,11 @@
     <main data-testid="board">
       <p data-testid="loader" class="loader" role="status">Loading incidents…</p>
       <p data-testid="empty" class="empty" hidden>No incidents tonight.</p>
-      <p class="error" role="alert" hidden></p>
+      <div class="new-bar-slot">
+        <button type="button" data-testid="new-bar" class="new-bar" hidden></button>
+      </div>
       <ul data-testid="incident-list" class="list"></ul>
+      <p class="error" role="alert" hidden></p>
     </main>
     <footer>sched-prod incident board · build <span data-testid="build-sha">__BUILD_SHA__</span></footer>
   </body>
